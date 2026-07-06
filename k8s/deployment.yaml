@@ -15,8 +15,8 @@ spec:
     spec:
       containers:
       - name: python-container
-        # IMPORTANTE: Reemplaza con tu ID de cuenta de AWS y tu región
-        image: 123456789012.dkr.ecr.us-east-1.amazonaws.com/sri-app-py-test:placeholder
+        # IMPORTANTE: Reemplaza con tu ID de cuenta de AWS y tu región - Es el ECR donde se encuentra tu imagen
+        image: 469484425805.dkr.ecr.us-east-1.amazonaws.com/sri-app-py:placeholder
         ports:
         - containerPort: 8080
 ---
