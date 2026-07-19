@@ -25,10 +25,21 @@ kind: Service
 metadata:
   name: python-app-service
   namespace: sri-aplicacion
+  annotations:
+    # 1. Fuerza a AWS a aprovisionar un Network Load Balancer (NLB) de alto rendimiento
+    service.beta.kubernetes.io/aws-load-balancer-type: "external"
+    
+    # 2. EL TRUCO MAESTRO: El tráfico va del NLB directo a las IPs de los Pods (172.31.x.x:8080).
+    # Al usar "ip", el puerto 30198 (NodePort) queda completamente anulado y baipaseado.
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "ip"
+    
+    # 3. Le indica a AWS que el balanceador debe tener una IP pública accesible desde internet
+    service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
 spec:
   type: LoadBalancer # Esto creará un balanceador de carga en AWS con IP pública
   ports:
   - port: 80
     targetPort: 8080
+    protocol: TCP
   selector:
     app: python-app
